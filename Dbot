@@ -1,0 +1,41 @@
+const DerivAPI = require('deriv-api');
+const api = new DerivAPI({
+  app_id: 'YOUR_APP_ID',
+  token: 'YOUR_TOKEN',
+});
+
+let previousTick;
+
+async function getTick() {
+  try {
+    const response = await api.getTick('R_100');
+    return response.tick.quote;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function tradeDigitMatch() {
+  try {
+    const currentTick = await getTick();
+    if (previousTick) {
+      const percentageChange = Math.abs((currentTick - previousTick) / previousTick) * 100;
+      if (percentageChange > 0.5) {
+        const response = await api.buy({
+          symbol: 'R_100',
+          amount: 1,
+          type: 'DIGITMATCH',
+          duration: 1,
+          duration_unit: 't',
+          digit: 1,
+        });
+        console.log(`Trade ID: ${response.buy.contract_id}`);
+      }
+    }
+    previousTick = currentTick;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+setInterval(tradeDigitMatch, 1000); // Trade every second
