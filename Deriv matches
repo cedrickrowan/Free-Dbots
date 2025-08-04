@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bot>
+    <Settings>
+        <TargetDigit>5</TargetDigit>
+        <PercentageThreshold>15</PercentageThreshold>
+        <TradeDuration>60</TradeDuration>
+        <StakeAmount>1</StakeAmount>
+        <TradeType>Matches</TradeType>
+    </Settings>
+    <Logic>
+        <Condition>PercentageIncrease</Condition>
+        <Action>TriggerTrade</Action>
+        <TriggerValue>15</TriggerValue>
+    </Logic>
+</Bot>
